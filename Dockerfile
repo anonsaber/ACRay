@@ -10,8 +10,7 @@ ENV APK_MIRROR="dl-cdn.alpinelinux.org" \
     BUILD_PKG="wget py-pip linux-headers autoconf g++ gcc make libev-dev curl tar xz nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev automake build-base gettext-dev libsodium-dev libtool mbedtls-dev openssl-dev pcre-dev udns-dev"
 
 # 应用版本
-ENV OC_VERSION=0.12.1 \
-    SS_LIBEV_VERSION=3.0.5
+ENV OC_VERSION=0.12.1 
 
 # 系统配置 
 RUN set -x \

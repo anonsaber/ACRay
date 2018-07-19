@@ -62,6 +62,8 @@ RUN mkdir -p \
     && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ray /usr/bin \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ctl /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geoip.dat /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geosite.dat /usr/bin \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/vpoint_vmess_freedom.json /etc/v2ray/config.json \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \

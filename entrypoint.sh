@@ -147,11 +147,15 @@ changeConfig "udp-port" "$PORT"
 # sysctl -w net.ipv4.ip_forward=1
 # iptables -t nat -A POSTROUTING -j MASQUERADE
 # iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+# 伪装 VPN 子网流量
 iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
+# 创建 V2Ray NAT 表
 iptables -t nat -N V2RAY
 iptables -t nat -A PREROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -p tcp -j V2RAY
-iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
+# 不转发 V2Ray NAT 表中访问部分地址的流量
 iptables -t nat -A V2RAY -d 118.24.188.231/24 -j RETURN
+# 转发 V2Ray NAT 表中的流量到 V2Ray Local
+iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 
 # Run ACRay Server
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &

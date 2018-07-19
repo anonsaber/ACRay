@@ -52,8 +52,6 @@ ADD https://storage.googleapis.com/v2ray-docker/v2ctl /usr/bin/v2ray/
 ADD https://storage.googleapis.com/v2ray-docker/geoip.dat /usr/bin/v2ray/
 ADD https://storage.googleapis.com/v2ray-docker/geosite.dat /usr/bin/v2ray/
 
-COPY config.json /etc/v2ray/config.json
-
 RUN set -x \
     mkdir /var/log/v2ray/ &&\
     chmod +x /usr/bin/v2ray/v2ctl && \

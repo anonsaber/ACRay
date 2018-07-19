@@ -10,10 +10,6 @@ echo "$VPN_NETWORK"
 echo "$VPN_NETMASK"
 echo "$VPN_USERNAME"
 echo "$VPN_PASSWORD"
-echo "$SS_IP"
-echo "$SS_PORT"
-echo "$SS_PASS"
-echo "$SS_METHOD"
 echo "$OC_CERT_AND_PLAIN"
 echo "$OC_GENERATE_KEY"
 
@@ -153,51 +149,6 @@ changeConfig "udp-port" "$PORT"
 # iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
 
-# Config Privoxy
-cd /etc/privoxy
-mv config config.bak
-cat >config <<_EOF_
-confdir /etc/privoxy
-logdir /var/log/privoxy
-actionsfile match-all.action 
-actionsfile default.action   
-actionsfile user.action
-filterfile default.filter
-filterfile user.filter      
-logfile privoxy.log
-listen-address  172.31.1.2:8118
-forward-socks5t / 172.31.1.2:1080 .
-toggle  1
-enable-remote-toggle  0
-enable-remote-http-toggle  0
-enable-edit-actions 0
-enforce-blocks 0
-buffer-limit 4096
-enable-proxy-authentication-forwarding 0
-forwarded-connect-retries  0
-accept-intercepted-requests 0
-allow-cgi-request-crunching 0
-split-large-forms 0
-keep-alive-timeout 5
-tolerate-pipelining 1
-socket-timeout 300
-_EOF_
-
-# Config SS-Local
-cd /etc
-cat >shadowsocks.conf <<_EOF_
-{
-    "server":"${SS_IP}",
-    "server_port":${SS_PORT},
-    "local_address": "172.31.1.2",
-    "local_port":1080,
-    "password":"${SS_PASS}",
-    "timeout":"600",
-    "method":"${SS_METHOD}"
-}
-_EOF_
-
-# Run OPPS Server
-exec nohup ss-local -c /etc/shadowsocks.conf >/dev/null 2>%1 &
-exec nohup privoxy /etc/privoxy/config >/dev/null 2>%1 &
+# Run ACRay Server
+exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &
 exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"

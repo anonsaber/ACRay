@@ -27,6 +27,20 @@
       ]
     }
   },
+  "inboundDetour": [
+    {
+      "domainOverride": [
+        "tls",
+        "http"
+      ],
+      "port": 12345,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "network": "tcp,udp",
+        "followRedirect": true
+      }
+    }
+  ],
   "streamSettings": {
     "network": "mkcp",
     "kcpSettings": {

@@ -7,7 +7,7 @@ ARG TZ="Asia/Shanghai"
 
 # 系统环境
 ENV TZ ${TZ}
-ENV APK_MIRROR="dl-cdn.alpinelinux.org" \
+ENV APK_MIRROR="mirrors.aliyun.com" \
     APK_MIRROR_SCHEME="http" \
     BASED_PKG="bash tzdata gnutls-utils iptables libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
     BUILD_PKG="wget py-pip linux-headers autoconf g++ gcc make libev-dev curl tar xz nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev automake build-base gettext-dev libsodium-dev libtool mbedtls-dev openssl-dev pcre-dev udns-dev"

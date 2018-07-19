@@ -147,8 +147,7 @@ changeConfig "udp-port" "$PORT"
 # sysctl -w net.ipv4.ip_forward=1
 # iptables -t nat -A POSTROUTING -j MASQUERADE
 # iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-#iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
-iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -o eth0@if85 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
 
 # Run ACRay Server
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &

@@ -1,24 +1,30 @@
 {
-  "log" : {
-    "access": "/var/log/v2ray/access.log",
-    "error": "/var/log/v2ray/error.log",
-    "loglevel": "warning"
-  },
   "inbound": {
-    "port": 8001,
-    "protocol": "vmess",
+    "port": 1080,
+    "protocol": "socks",
+    "domainOverride": [
+      "tls",
+      "http"
+    ],
     "settings": {
-      "clients": [
-        {
-          "id": "60ca58e9-003e-4c01-98de-c2223ae49153",
-          "level": 1,
-          "alterId": 64
-        }
-      ]
+      "auth": "noauth"
     }
   },
   "outbound": {
-    "protocol": "freedom",
-    "settings": {}
+    "protocol": "vmess",
+    "settings": {
+      "vnext": [
+        {
+          "address": "i.motofans.club",
+          "port": 10011,
+          "users": [
+            {
+              "id": "a2e57082-6d69-461e-aea4-6a0095bf6f46",
+              "alterId": 64
+            }
+          ]
+        }
+      ]
+    }
   }
 }

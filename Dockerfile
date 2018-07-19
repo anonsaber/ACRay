@@ -64,13 +64,6 @@ RUN rm -rf /src \
     | xargs -r apk info --installed \
     | sort -u \
     )" \
-    && SS_RUN_Deps="$( \
-    scanelf --needed --nobanner /usr/bin/ss-local \
-    | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-    | xargs -r apk info --installed \
-    | sort -u \
-    )" \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
-    && apk add --virtual .ss-run-deps $SS_RUN_Deps \
     && rm -rf /var/cache/apk/*

@@ -63,15 +63,9 @@ RUN mkdir -p \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ray /usr/bin \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/vpoint_vmess_freedom.json /etc/v2ray/config.json \
     && chmod +x /usr/bin/v2ray \
-    && apk del curl \
     && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo ${TZ} > /etc/timezone \
     && rm -rf /tmp/v2ray /var/cache/apk/*
-
-RUN set -x \
-    mkdir /var/log/v2ray/ &&\
-    chmod +x /usr/bin/v2ray/v2ctl && \
-    chmod +x /usr/bin/v2ray/v2ray
 
 # 清理系统
 RUN rm -rf /src \

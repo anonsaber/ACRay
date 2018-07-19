@@ -26,5 +26,20 @@
         }
       ]
     }
+  },
+  "streamSettings": {
+    "network": "mkcp",
+    "kcpSettings": {
+      "mtu": 1350,
+      "tti": 20,
+      "uplinkCapacity": 5,
+      "downlinkCapacity": 100,
+      "congestion": false,
+      "readBufferSize": 1,
+      "writeBufferSize": 1,
+      "header": {
+        "type": "none"
+      }
+    }
   }
 }

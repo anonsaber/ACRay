@@ -1,12 +1,15 @@
-FROM alpine
+FROM alpine:latest
 
 LABEL MAINTAINER "motofans.club" \
     ARCHITECTURE "amd64"
 
+ARG TZ="Asia/Shanghai"
+
 # 系统环境
+ENV TZ ${TZ}
 ENV APK_MIRROR="dl-cdn.alpinelinux.org" \
     APK_MIRROR_SCHEME="http" \
-    BASED_PKG="gnutls-utils iptables libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
+    BASED_PKG="bash tzdata gnutls-utils iptables libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
     BUILD_PKG="wget py-pip linux-headers autoconf g++ gcc make libev-dev curl tar xz nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev automake build-base gettext-dev libsodium-dev libtool mbedtls-dev openssl-dev pcre-dev udns-dev"
 
 # 应用版本
@@ -46,10 +49,24 @@ RUN set -x \
 
 # 安装 V2Ray
 
-ADD https://storage.googleapis.com/v2ray-docker/v2ray /usr/bin/v2ray/
-ADD https://storage.googleapis.com/v2ray-docker/v2ctl /usr/bin/v2ray/
-ADD https://storage.googleapis.com/v2ray-docker/geoip.dat /usr/bin/v2ray/
-ADD https://storage.googleapis.com/v2ray-docker/geosite.dat /usr/bin/v2ray/
+ENV V2RAY_VERSION v3.29 
+ENV V2RAY_LOG_DIR /var/log/v2ray
+ENV V2RAY_CONFIG_DIR /etc/v2ray/
+ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
+
+RUN mkdir -p \ 
+    ${V2RAY_LOG_DIR} \
+    ${V2RAY_CONFIG_DIR} \
+    /tmp/v2ray \
+    && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
+    && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ray /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/vpoint_vmess_freedom.json /etc/v2ray/config.json \
+    && chmod +x /usr/bin/v2ray \
+    && apk del curl \
+    && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone \
+    && rm -rf /tmp/v2ray /var/cache/apk/*
 
 RUN set -x \
     mkdir /var/log/v2ray/ &&\

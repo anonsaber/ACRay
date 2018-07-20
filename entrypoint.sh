@@ -171,6 +171,8 @@ iptables -t nat -N V2RAY
 iptables -t nat -A PREROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -p tcp -j V2RAY
 # 不转发 V2Ray NAT 表中访问部分地址的流量
 iptables -t nat -A V2RAY -d ${VPN_IP}/24 -j RETURN
+iptables -t nat -A V2RAY -d 119.29.29.29/24 -j RETURN
+iptables -t nat -A V2RAY -d 8.8.8.8/24 -j RETURN
 # 转发 V2Ray NAT 表中的流量到 V2Ray Local
 iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 

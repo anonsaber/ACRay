@@ -4,12 +4,18 @@ set -xe
 
 CONFIG_FILE=/etc/ocserv/ocserv.conf
 CLIENT="${VPN_USERNAME}@${VPN_DOMAIN}"
+
 echo "$PORT"
 echo "$VPN_DOMAIN"
+echo "$VPN_IP"
 echo "$VPN_NETWORK"
 echo "$VPN_NETMASK"
 echo "$VPN_USERNAME"
 echo "$VPN_PASSWORD"
+echo "$V2RAY_SERVER"
+echo "$V2RAY_PORT"
+echo "$V2RAY_ID"
+echo "$V2RAY_ALTERID"
 echo "$OC_CERT_AND_PLAIN"
 echo "$OC_GENERATE_KEY"
 
@@ -129,19 +135,25 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
-# User Settings
+# OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
 	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "nocn" "${VPN_USERNAME}"
 else
 	echo -n "${VPN_PASSWORD}${RANDOM}" | md5sum | sha256sum | ocpasswd -c /etc/ocserv/ocpasswd -g "nocn" "${VPN_USERNAME}"
 fi
 
-# Network Settings
+# OCServ Network Settings
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
 	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
 
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
+
+# Config V2Ray
+sed -i "s/1.2.3.4/${V2RAY_SERVER}/g" /etc/v2ray/config.json
+sed -i "s/10011/${V2RAY_PORT}/g" /etc/v2ray/config.json
+sed -i "s/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/${V2RAY_ID}/g" /etc/v2ray/config.json
+sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 
 # Enable NAT forwarding
 # sysctl -w net.ipv4.ip_forward=1
@@ -153,7 +165,7 @@ iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
 iptables -t nat -N V2RAY
 iptables -t nat -A PREROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -p tcp -j V2RAY
 # 不转发 V2Ray NAT 表中访问部分地址的流量
-iptables -t nat -A V2RAY -d 118.24.188.231/24 -j RETURN
+iptables -t nat -A V2RAY -d ${VPN_IP}/24 -j RETURN
 # 转发 V2Ray NAT 表中的流量到 V2Ray Local
 iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 

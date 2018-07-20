@@ -15,11 +15,11 @@
     "settings": {
       "vnext": [
         {
-          "address": "i.motofans.club",
+          "address": "1.2.3.4",
           "port": 10011,
           "users": [
             {
-              "id": "a2e57082-6d69-461e-aea4-6a0095bf6f46",
+              "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
               "alterId": 64
             }
           ]

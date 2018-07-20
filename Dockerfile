@@ -4,11 +4,16 @@ LABEL MAINTAINER "motofans.club" \
     ARCHITECTURE "amd64"
 
 ENV PORT=443 \  
-    VPN_DOMAIN=i.motofans.club \
+    VPN_DOMAIN=motofans.club \
+    VPN_IP=4.3.2.1 \
     VPN_NETWORK=100.64.1.0 \
     VPN_NETMASK=255.255.255.0 \
     VPN_USERNAME=opsvpn \
     VPN_PASSWORD=opsvpn \
+    V2RAY_SERVER=1.2.3.4 \
+    V2RAY_PORT=10011 \
+    V2RAY_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
+    V2RAY_ALTERID=64 \
     OC_CERT_AND_PLAIN=true \
     OC_GENERATE_KEY=true
 

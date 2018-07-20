@@ -1,24 +1,25 @@
 version: '2'
 
 services:
-  opps:
-    image: daocloud.io/subaru/oppsnet
+  acray:
+    image: daocloud.io/subaru/acray
     restart: always
-    container_name: opps
+    container_name: acray
     networks:
       net:
         ipv4_address: 172.31.1.2
     environment:
       - PORT=999
       - VPN_DOMAIN=yourname.com
+      - VPN_IP=118.24.188.231
       - VPN_NETWORK=100.64.1.0
       - VPN_NETMASK=255.255.255.0
       - VPN_USERNAME=yourusername
       - VPN_PASSWORD=yourpassword
-      - SS_IP=1.2.3.4
-      - SS_PORT=8989
-      - SS_PASS=yoursspasswd
-      - SS_METHOD=aes-256-cfb
+      - V2RAY_SERVER=i.motofans.club
+      - V2RAY_PORT=10011
+      - V2RAY_ID=a2e57082-6d69-461e-aea4-6a0095bf6f46
+      - V2RAY_ALTERID=64
     ports:
       - "10.214.62.242:999:999/tcp"
       - "10.214.62.242:999:999/udp"

@@ -30,6 +30,7 @@ COPY nocn /etc/ocserv/config-per-group/nocn
 
 RUN chmod a+x /entrypoint.sh
 
+VOLUME [ "/etc/ocserv/config-per-group" ]
 VOLUME [ "/etc/ocserv/config-per-user" ]
 VOLUME [ "/etc/ocserv/certs" ]
 

@@ -135,6 +135,11 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
+# OCServ Group Settings
+cp /etc/ocserv/route-table/nolocal.txt /etc/ocserv/config-per-group
+cp /etc/ocserv/route-table/nocn.txt /etc/ocserv/config-per-group
+cp /etc/ocserv/route-table/route.txt /etc/ocserv/config-per-group
+
 # OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
 	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "nocn" "${VPN_USERNAME}"

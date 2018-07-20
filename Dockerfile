@@ -19,14 +19,17 @@ ENV PORT=443 \
 
 RUN echo "Make some dirs..." \
     && mkdir -p /etc/ocserv/certs \
+    && mkdir -p /etc/ocserv/route-table \
     && mkdir -p /etc/ocserv/config-per-group \
     && mkdir -p /etc/ocserv/config-per-user
 
 COPY config.json /etc/v2ray/config.json
 COPY ocserv.conf /etc/ocserv
+COPY nolocal /etc/ocserv/route-table/nolocal.txt
+COPY nocn /etc/ocserv/route-table/nocn.txt
+COPY route /etc/ocserv/route-table/route.txt
+
 COPY entrypoint.sh /entrypoint.sh
-COPY nolocal /etc/ocserv/config-per-group/nolocal
-COPY nocn /etc/ocserv/config-per-group/nocn
 
 RUN chmod a+x /entrypoint.sh
 

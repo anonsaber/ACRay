@@ -136,9 +136,9 @@ if [ ! -e /dev/net/tun ]; then
 fi
 
 # OCServ Group Settings
-[ ! -f /etc/ocserv/config-per-group/nolocal.txt ] && cp /etc/ocserv/route-table/nolocal.txt /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/nocn.txt ] && cp /etc/ocserv/route-table/nocn.txt /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/route.txt ] && cp /etc/ocserv/route-table/route.txt /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/all ] && cp /etc/ocserv/route-table/all /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/nocn ] && cp /etc/ocserv/route-table/nocn /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/route ] && cp /etc/ocserv/route-table/route /etc/ocserv/config-per-group
 
 # OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then

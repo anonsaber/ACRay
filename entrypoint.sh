@@ -136,15 +136,15 @@ if [ ! -e /dev/net/tun ]; then
 fi
 
 # OCServ Group Settings
-[ ! -f /etc/ocserv/config-per-group/all ] && cp /etc/ocserv/route-table/all /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/nocn ] && cp /etc/ocserv/route-table/nocn /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/route ] && cp /etc/ocserv/route-table/route /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/ocserv/route-table/Fully /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/ocserv/route-table/Common /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/ocserv/route-table/Android /etc/ocserv/config-per-group
 
 # OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
-	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "nocn" "${VPN_USERNAME}"
+	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
 else
-	echo -n "${VPN_PASSWORD}${RANDOM}" | md5sum | sha256sum | ocpasswd -c /etc/ocserv/ocpasswd -g "nocn" "${VPN_USERNAME}"
+	echo -n "${VPN_PASSWORD}${RANDOM}" | md5sum | sha256sum | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
 fi
 
 # OCServ Network Settings

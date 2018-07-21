@@ -25,9 +25,9 @@ RUN echo "Make some dirs..." \
 
 COPY config.json /etc/v2ray/config.json
 COPY ocserv.conf /etc/ocserv
-COPY all /etc/ocserv/route-table/all
-COPY nocn /etc/ocserv/route-table/nocn
-COPY route /etc/ocserv/route-table/route
+COPY Fully /etc/ocserv/route-table/Fully
+COPY Common /etc/ocserv/route-table/Common
+COPY Android /etc/ocserv/route-table/Android
 
 COPY entrypoint.sh /entrypoint.sh
 

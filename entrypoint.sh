@@ -186,4 +186,4 @@ iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 
 # Run ACRay Server
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &
-exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"
+#exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"

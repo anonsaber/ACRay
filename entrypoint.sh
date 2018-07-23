@@ -38,6 +38,7 @@ else
 fi
 
 # Creat TMPL
+
 cd /etc/ocserv/certs
 
 cat >ocserv-ca.tmpl <<_EOF_
@@ -135,13 +136,13 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
-# OCServ Data
+# OCServ Data and User Settings
 [ ! -f /etc/ocserv/ocserv.conf ] && cp /etc/pre-config/ocserv.conf /etc/ocserv
+
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
 
-# OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
 	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
 else

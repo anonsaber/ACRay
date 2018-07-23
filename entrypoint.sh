@@ -136,10 +136,10 @@ if [ ! -e /dev/net/tun ]; then
 fi
 
 # OCServ Data
-[ ! -f /etc/ocserv/ocserv.conf ] && cp /etc/ocserv/pre-config/ocserv.conf /etc/ocserv
-[ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/ocserv/pre-config/Fully /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/ocserv/pre-config/Common /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/ocserv/pre-config/Android /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/ocserv.conf ] && cp /etc/pre-config/ocserv.conf /etc/ocserv
+[ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
 
 # OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then

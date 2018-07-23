@@ -5,12 +5,12 @@ LABEL MAINTAINER "motofans.club" \
 
 ENV PORT=443 \  
     VPN_DOMAIN=motofans.club \
-    VPN_IP=4.3.2.1 \
+    VPN_IP=d.c.b.a \
     VPN_NETWORK=100.64.1.0 \
     VPN_NETMASK=255.255.255.0 \
     VPN_USERNAME=opsvpn \
     VPN_PASSWORD=opsvpn \
-    V2RAY_SERVER=1.2.3.4 \
+    V2RAY_SERVER=a.b.c.d \
     V2RAY_PORT=10011 \
     V2RAY_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
     V2RAY_ALTERID=64 \
@@ -18,23 +18,21 @@ ENV PORT=443 \
     OC_GENERATE_KEY=true
 
 RUN echo "Make some dirs..." \
+    && mkdir -p /etc/pre-config \
     && mkdir -p /etc/ocserv/certs \
-    && mkdir -p /etc/ocserv/route-table \
     && mkdir -p /etc/ocserv/config-per-group \
     && mkdir -p /etc/ocserv/config-per-user
 
+COPY ocserv.conf /etc/pre-config/ocserv.conf
+COPY Fully /etc/pre-config/Fully
+COPY Common /etc/pre-config/Common
+COPY Android /etc/pre-config/Android
 COPY config.json /etc/v2ray/config.json
-COPY ocserv.conf /etc/ocserv
-COPY Fully /etc/ocserv/route-table/Fully
-COPY Common /etc/ocserv/route-table/Common
-COPY Android /etc/ocserv/route-table/Android
 
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /entrypoint.sh
 
-VOLUME [ "/etc/ocserv/config-per-group" ]
-VOLUME [ "/etc/ocserv/config-per-user" ]
-VOLUME [ "/etc/ocserv/certs" ]
+VOLUME [ "/etc/ocserv" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

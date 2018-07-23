@@ -177,11 +177,6 @@ iptables -t nat -A V2RAY -d 8.8.8.8/24 -j RETURN
 # 转发 V2Ray NAT 表中的流量到 V2Ray Local
 iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 
-# 
-[ -f /etc/ocserv/ocpasswd/ocpasswd ] && cat /etc/ocserv/ocpasswd/ocpasswd > /etc/ocserv/ocpasswd
-[ -f /etc/ocserv/config/ocserv.conf ] && cat /etc/ocserv/config/ocserv.conf > $CONFIG_FILE
-
-
 # Run ACRay Server
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &
 exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"

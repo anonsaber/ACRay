@@ -10,13 +10,13 @@ services:
         ipv4_address: 172.31.1.2
     environment:
       - PORT=999
-      - VPN_DOMAIN=vpn.motofans.club
+      - VPN_DOMAIN=motofans.club
       - VPN_IP=1.2.3.4
       - VPN_NETWORK=100.64.1.0
       - VPN_NETMASK=255.255.255.0
       - VPN_USERNAME=yourusername
       - VPN_PASSWORD=yourpassword
-      - V2RAY_SERVER=v2ray.motofans.club
+      - V2RAY_SERVER=ray.motofans.club
       - V2RAY_PORT=10011
       - V2RAY_ID=a2e57082-6d69-xxxx-xxxx-6a0095bf6f46
       - V2RAY_ALTERID=64

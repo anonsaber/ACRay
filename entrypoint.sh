@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -xe
 
 CONFIG_FILE=/etc/ocserv/ocserv.conf
 CLIENT="${VPN_USERNAME}@${VPN_DOMAIN}"

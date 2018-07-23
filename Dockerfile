@@ -18,19 +18,24 @@ ENV PORT=443 \
     OC_GENERATE_KEY=true
 
 RUN echo "Make some dirs..." \
-    && mkdir -p /etc/pre-config
+    && mkdir -p /etc/pre-config \
+    && mkdir -p /etc/ocserv/certs \
+    && mkdir -p /etc/ocserv/config-per-group \
+    && mkdir -p /etc/ocserv/config-per-user
 
-COPY ocserv.conf /etc/pre-config/ocserv.conf
 COPY Fully /etc/pre-config/Fully
 COPY Common /etc/pre-config/Common
 COPY Android /etc/pre-config/Android
 
+COPY ocserv.conf /etc/ocserv
 COPY config.json /etc/v2ray/config.json
 
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /entrypoint.sh
 
-VOLUME [ "/etc/ocserv" ]
+VOLUME [ "/etc/ocserv/config-per-group" ]
+VOLUME [ "/etc/ocserv/config-per-user" ]
+VOLUME [ "/etc/ocserv/certs" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

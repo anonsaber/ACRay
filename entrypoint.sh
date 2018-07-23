@@ -19,17 +19,12 @@ echo "$V2RAY_ALTERID"
 echo "$OC_CERT_AND_PLAIN"
 echo "$OC_GENERATE_KEY"
 
-# CheckDir
-[ ! -d /etc/ocserv/certs ] && mkdir -p /etc/ocserv/certs
-[ ! -d /etc/ocserv/config-per-group ] && mkdir -p /etc/ocserv/config-per-group
-[ ! -d /etc/ocserv/config-per-user ] && mkdir -p /etc/ocserv/config-per-user
-
 function changeConfig() {
 	local prop=$1
 	local var=$2
 	if [ -n "$var" ]; then
 		echo "[INFO] Setting $prop to $var"
-		#sed -i "/$prop\s*=/ c $prop=$var" $CONFIG_FILE
+		sed -i "/$prop\s*=/ c $prop=$var" $CONFIG_FILE
 	fi
 }
 
@@ -141,9 +136,7 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
-# OCServ Data and User Settings
-[ ! -f /etc/ocserv/ocserv.conf ] && cp /etc/pre-config/ocserv.conf /etc/ocserv
-
+# OCServ Group Settings
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
@@ -155,9 +148,9 @@ else
 fi
 
 # OCServ Network Settings
-#sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
-#	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
-#	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
+sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
+	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
+	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
 
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
@@ -186,4 +179,4 @@ iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 
 # Run ACRay Server
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &
-#exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"
+exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"

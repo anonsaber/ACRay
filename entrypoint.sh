@@ -29,7 +29,7 @@ function changeConfig() {
 	local var=$2
 	if [ -n "$var" ]; then
 		echo "[INFO] Setting $prop to $var"
-		sed -i "/$prop\s*=/ c $prop=$var" $CONFIG_FILE
+		#sed -i "/$prop\s*=/ c $prop=$var" $CONFIG_FILE
 	fi
 }
 

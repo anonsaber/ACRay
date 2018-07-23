@@ -20,8 +20,6 @@ ENV PORT=443 \
 RUN echo "Make some dirs..." \
     && mkdir -p /etc/pre-config \
     && mkdir -p /etc/ocserv/certs \
-    && mkdir -p /etc/ocserv/ocpasswd \
-    && mkdir -p /mkdir/ocserv/config \
     && mkdir -p /etc/ocserv/config-per-group \
     && mkdir -p /etc/ocserv/config-per-user
 
@@ -38,8 +36,6 @@ RUN chmod a+x /entrypoint.sh
 
 VOLUME [ "/etc/ocserv/config-per-group" ]
 VOLUME [ "/etc/ocserv/config-per-user" ]
-VOLUME [ "/etc/ocserv/config" ]
-VOLUME [ "/etc/ocserv/ocpasswd" ]
 VOLUME [ "/etc/ocserv/certs" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

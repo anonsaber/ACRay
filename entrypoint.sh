@@ -157,7 +157,7 @@ changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
 
 # Config V2Ray
-sed -i "s/1.2.3.4/${V2RAY_SERVER}/g" /etc/v2ray/config.json
+sed -i "s/d.c.b.a/${V2RAY_SERVER}/g" /etc/v2ray/config.json
 sed -i "s/10011/${V2RAY_PORT}/g" /etc/v2ray/config.json
 sed -i "s/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/${V2RAY_ID}/g" /etc/v2ray/config.json
 sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json

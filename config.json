@@ -15,7 +15,7 @@
     "settings": {
       "vnext": [
         {
-          "address": "1.2.3.4",
+          "address": "d.c.b.a",
           "port": 10011,
           "users": [
             {

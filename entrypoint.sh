@@ -155,9 +155,9 @@ else
 fi
 
 # OCServ Network Settings
-sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
-	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
-	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
+#sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
+#	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
+#	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
 
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"

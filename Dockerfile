@@ -38,8 +38,8 @@ RUN chmod a+x /entrypoint.sh
 
 VOLUME [ "/etc/ocserv/config-per-group" ]
 VOLUME [ "/etc/ocserv/config-per-user" ]
-VOLUME [ "/etc/ocserv/ocpasswd" ]
 VOLUME [ "/etc/ocserv/config" ]
+VOLUME [ "/etc/ocserv/ocpasswd" ]
 VOLUME [ "/etc/ocserv/certs" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

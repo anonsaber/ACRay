@@ -19,6 +19,11 @@ echo "$V2RAY_ALTERID"
 echo "$OC_CERT_AND_PLAIN"
 echo "$OC_GENERATE_KEY"
 
+# CheckDir
+[ ! -d /etc/ocserv/certs ] && mkdir -p /etc/ocserv/certs
+[ ! -d /etc/ocserv/config-per-group ] && mkdir -p /etc/ocserv/config-per-group
+[ ! -d /etc/ocserv/config-per-user ] && mkdir -p /etc/ocserv/config-per-user
+
 function changeConfig() {
 	local prop=$1
 	local var=$2

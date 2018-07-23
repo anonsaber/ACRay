@@ -18,10 +18,7 @@ ENV PORT=443 \
     OC_GENERATE_KEY=true
 
 RUN echo "Make some dirs..." \
-    && mkdir -p /etc/pre-config \
-    && mkdir -p /etc/ocserv/certs \
-    && mkdir -p /etc/ocserv/config-per-group \
-    && mkdir -p /etc/ocserv/config-per-user
+    && mkdir -p /etc/pre-config
 
 COPY ocserv.conf /etc/pre-config/ocserv.conf
 COPY Fully /etc/pre-config/Fully

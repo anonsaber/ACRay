@@ -135,10 +135,11 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
-# OCServ Group Settings
-[ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/ocserv/route-table/Fully /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/ocserv/route-table/Common /etc/ocserv/config-per-group
-[ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/ocserv/route-table/Android /etc/ocserv/config-per-group
+# OCServ Data
+[ ! -f /etc/ocserv/ocserv.conf ] && cp /etc/ocserv/pre-config/ocserv.conf /etc/ocserv
+[ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/ocserv/pre-config/Fully /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/ocserv/pre-config/Common /etc/ocserv/config-per-group
+[ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/ocserv/pre-config/Android /etc/ocserv/config-per-group
 
 # OCServ User Settings
 if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
@@ -149,6 +150,7 @@ fi
 
 # OCServ Network Settings
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
+	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
 	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
 
 changeConfig "tcp-port" "$PORT"

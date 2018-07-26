@@ -49,18 +49,18 @@ RUN set -x \
     && mkdir -p /etc/ocserv 
 
 # 编译安装 Radcli
-RUN set -x \
-    && RADCLI_VERSION=`curl "https://api.github.com/repos/radcli/radcli/releases/latest" | sed -n 's/^.*"tag_name": "\(.*\)",$/\1/p'` \
-    && curl -SL "https://github.com/radcli/radcli/releases/download/$RADCLI_VERSION/radcli-$RADCLI_VERSION.tar.gz" -o radcli.tar.gz \
-	&& mkdir -p /usr/src/radcli \
-	&& tar -xf radcli.tar.gz -C /usr/src/radcli --strip-components=1 \
-	&& rm radcli.tar.gz* \
-	&& cd /usr/src/radcli \
-	&& ./configure --sysconfdir=/etc/ \
-	&& make \
-	&& make install \
-	&& cd / \
-	&& rm -fr /usr/src/radcli
+# RUN set -x \
+#    && RADCLI_VERSION=`curl "https://api.github.com/repos/radcli/radcli/releases/latest" | sed -n 's/^.*"tag_name": "\(.*\)",$/\1/p'` \
+#    && curl -SL "https://github.com/radcli/radcli/releases/download/$RADCLI_VERSION/radcli-$RADCLI_VERSION.tar.gz" -o radcli.tar.gz \
+#    && mkdir -p /usr/src/radcli \
+#    && tar -xf radcli.tar.gz -C /usr/src/radcli --strip-components=1 \
+#    && rm radcli.tar.gz* \
+#    && cd /usr/src/radcli \
+#    && ./configure --sysconfdir=/etc/ \
+#    && make \
+#    && make install \
+#    && cd / \
+#    && rm -fr /usr/src/radcli
 
 # 安装 V2Ray
 ENV V2RAY_VERSION v3.29 

@@ -16,6 +16,7 @@ echo "$V2RAY_SERVER"
 echo "$V2RAY_PORT"
 echo "$V2RAY_ID"
 echo "$V2RAY_ALTERID"
+echo "$OC_CERT_AND_PLAIN"
 echo "$OC_GENERATE_KEY"
 
 function changeConfig() {
@@ -37,6 +38,7 @@ else
 fi
 
 # Creat TMPL
+
 cd /etc/ocserv/certs
 
 cat >ocserv-ca.tmpl <<_EOF_
@@ -59,6 +61,16 @@ expiration_days = 3650
 signing_key
 encryption_key
 tls_www_server
+_EOF_
+
+# For Radius Auth, Not Need...
+cat >ocserv-client.tmpl <<_EOF_
+cn = "client@${VPN_DOMAIN}"
+uid = "client@${VPN_DOMAIN}"
+unit = "ocserv"
+expiration_days = 3650
+signing_key
+tls_www_client
 _EOF_
 
 # Generate CA
@@ -89,6 +101,32 @@ if [ "$OC_GENERATE_KEY" != "false" ] && [ ! -f /etc/ocserv/certs/"${VPN_DOMAIN}"
            --outfile "${VPN_DOMAIN}".self-signed.crt
 fi
 
+# Generate Client Certs 
+# For Radius Auth, Not Need...
+if [ ! -f /etc/ocserv/certs/"${CLIENT}".p12 ]; then
+  echo "[INFO] generating client certs"
+  # gen client keys
+  certtool --generate-privkey \
+           --outfile "${CLIENT}"-key.pem
+
+  certtool --generate-certificate \
+           --load-privkey "${CLIENT}"-key.pem \
+           --load-ca-certificate ocserv-ca-cert.pem \
+           --load-ca-privkey ocserv-ca-key.pem \
+           --template ocserv-client.tmpl \
+           --outfile "${CLIENT}"-cert.pem
+
+  certtool --to-p12 \
+           --pkcs-cipher 3des-pkcs12 \
+           --load-ca-certificate ocserv-ca-cert.pem \
+           --load-certificate "${CLIENT}"-cert.pem \
+           --load-privkey "${CLIENT}"-key.pem \
+           --outfile "${CLIENT}".p12 \
+           --outder \
+           --p12-name "${VPN_DOMAIN}" \
+           --password "${VPN_PASSWORD}"
+fi
+
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl
 rm ocserv-client.tmpl
@@ -104,6 +142,13 @@ fi
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
+
+# Creatting User
+if [ "$OC_CERT_AND_PLAIN" = "true" ]; then
+	echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
+else
+	echo -n "${VPN_PASSWORD}${RANDOM}" | md5sum | sha256sum | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
+fi
 
 # OCServ Network Settings
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \

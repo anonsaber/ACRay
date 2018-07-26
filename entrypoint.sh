@@ -95,16 +95,16 @@ rm ocserv-server.tmpl
 # Config Radius Client
 cd /etc/radiusclient
 
-cat >radiusclient.conf <<_EOF_
-nas-identifier acray
-authserver 10.214.62.242
-servers /etc/radcli/servers
-dictionary /etc/radcli/dictionary
-default_realm
-radius_timeout 10
-radius_retries 3
-bindaddr *
-_EOF_
+#cat >radiusclient.conf <<_EOF_
+#nas-identifier acray
+#authserver 10.214.62.242
+#servers /etc/radcli/servers
+#dictionary /etc/radcli/dictionary
+#default_realm
+#radius_timeout 10
+#radius_retries 3
+#bindaddr *
+#_EOF_
 
 # Enable TUN device
 if [ ! -e /dev/net/tun ]; then

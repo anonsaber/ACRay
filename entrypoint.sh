@@ -67,7 +67,7 @@ if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
   # gen ca keys
   certtool --generate-privkey \
            --outfile ocserv-ca-key.pem
-
+           
   certtool --generate-self-signed \
            --load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
            --template ocserv-ca.tmpl \
@@ -91,7 +91,6 @@ fi
 
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl
-rm ocserv-client.tmpl
 
 # Enable TUN device
 if [ ! -e /dev/net/tun ]; then

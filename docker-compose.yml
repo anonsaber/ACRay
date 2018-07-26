@@ -5,6 +5,7 @@ services:
     image: daocloud.io/subaru/acray
     restart: always
     container_name: acray
+    hostname: acray
     networks:
       net:
         ipv4_address: 172.31.1.2

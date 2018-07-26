@@ -92,6 +92,20 @@ fi
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl
 
+# Config Radius Client
+cd /etc/radiusclient
+
+cat >radiusclient.conf <<_EOF_
+nas-identifier acray
+authserver 10.214.62.242
+servers /etc/radcli/servers
+dictionary /etc/radcli/dictionary
+default_realm
+radius_timeout 10
+radius_retries 3
+bindaddr *
+_EOF_
+
 # Enable TUN device
 if [ ! -e /dev/net/tun ]; then
 	mkdir -p /dev/net
@@ -135,5 +149,5 @@ iptables -t nat -A V2RAY -d 8.8.8.8/24 -j RETURN
 iptables -t nat -A V2RAY -p tcp -j REDIRECT --to-ports 12345
 
 # Run ACRay Server
+# exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"
 exec nohup /usr/bin/v2ray -config=/etc/v2ray/config.json >/dev/null 2>%1 &
-exec nohup ocserv -c /etc/ocserv/ocserv.conf -f -d 1 "$@"

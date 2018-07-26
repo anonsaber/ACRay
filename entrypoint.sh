@@ -63,14 +63,15 @@ encryption_key
 tls_www_server
 _EOF_
 
-cat >ocserv-client.tmpl <<_EOF_
-cn = "client@${VPN_DOMAIN}"
-uid = "client@${VPN_DOMAIN}"
-unit = "ocserv"
-expiration_days = 3650
-signing_key
-tls_www_client
-_EOF_
+# For Radius Auth, Not Need...
+#cat >ocserv-client.tmpl <<_EOF_
+#cn = "client@${VPN_DOMAIN}"
+#uid = "client@${VPN_DOMAIN}"
+#unit = "ocserv"
+#expiration_days = 3650
+#signing_key
+#tls_www_client
+#_EOF_
 
 # Generate CA
 if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
@@ -100,30 +101,31 @@ if [ "$OC_GENERATE_KEY" != "false" ] && [ ! -f /etc/ocserv/certs/"${VPN_DOMAIN}"
            --outfile "${VPN_DOMAIN}".self-signed.crt
 fi
 
-# Generate Client Certs
-if [ ! -f /etc/ocserv/certs/"${CLIENT}".p12 ]; then
-  echo "[INFO] generating client certs"
-  # gen client keys
-  certtool --generate-privkey \
-           --outfile "${CLIENT}"-key.pem
-
-  certtool --generate-certificate \
-           --load-privkey "${CLIENT}"-key.pem \
-           --load-ca-certificate ocserv-ca-cert.pem \
-           --load-ca-privkey ocserv-ca-key.pem \
-           --template ocserv-client.tmpl \
-           --outfile "${CLIENT}"-cert.pem
-
-  certtool --to-p12 \
-           --pkcs-cipher 3des-pkcs12 \
-           --load-ca-certificate ocserv-ca-cert.pem \
-           --load-certificate "${CLIENT}"-cert.pem \
-           --load-privkey "${CLIENT}"-key.pem \
-           --outfile "${CLIENT}".p12 \
-           --outder \
-           --p12-name "${VPN_DOMAIN}" \
-           --password "${VPN_PASSWORD}"
-fi
+# Generate Client Certs 
+# For Radius Auth, Not Need...
+#if [ ! -f /etc/ocserv/certs/"${CLIENT}".p12 ]; then
+#  echo "[INFO] generating client certs"
+#  # gen client keys
+#  certtool --generate-privkey \
+#           --outfile "${CLIENT}"-key.pem
+#
+#  certtool --generate-certificate \
+#           --load-privkey "${CLIENT}"-key.pem \
+#           --load-ca-certificate ocserv-ca-cert.pem \
+#           --load-ca-privkey ocserv-ca-key.pem \
+#           --template ocserv-client.tmpl \
+#           --outfile "${CLIENT}"-cert.pem
+#
+#  certtool --to-p12 \
+#           --pkcs-cipher 3des-pkcs12 \
+#           --load-ca-certificate ocserv-ca-cert.pem \
+#           --load-certificate "${CLIENT}"-cert.pem \
+#           --load-privkey "${CLIENT}"-key.pem \
+#           --outfile "${CLIENT}".p12 \
+#           --outder \
+#           --p12-name "${VPN_DOMAIN}" \
+#           --password "${VPN_PASSWORD}"
+#fi
 
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl

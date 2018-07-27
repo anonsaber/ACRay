@@ -14,7 +14,6 @@ ENV PORT=443 \
     V2RAY_PORT=10011 \
     V2RAY_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
     V2RAY_ALTERID=64 \
-    OC_CERT_AND_PLAIN=true \
     OC_GENERATE_KEY=true
 
 RUN echo "Make some dirs..." \
@@ -26,7 +25,6 @@ RUN echo "Make some dirs..." \
 COPY Fully /etc/pre-config/Fully
 COPY Common /etc/pre-config/Common
 COPY Android /etc/pre-config/Android
-
 COPY ocserv.conf /etc/ocserv
 COPY config.json /etc/v2ray/config.json
 
@@ -35,7 +33,6 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
 VOLUME [ "/etc/ocserv/config-per-group" ]
-VOLUME [ "/etc/ocserv/config-per-user" ]
 VOLUME [ "/etc/ocserv/certs" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

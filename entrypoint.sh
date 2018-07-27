@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -xe
 
 CONFIG_FILE=/etc/ocserv/ocserv.conf
@@ -67,7 +66,7 @@ if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
   # gen ca keys
   certtool --generate-privkey \
            --outfile ocserv-ca-key.pem
-           
+
   certtool --generate-self-signed \
            --load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
            --template ocserv-ca.tmpl \
@@ -92,20 +91,6 @@ fi
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl
 
-# Config Radius Client
-cd /etc/radiusclient
-
-#cat >radiusclient.conf <<_EOF_
-#nas-identifier acray
-#authserver 10.214.62.242
-#servers /etc/radcli/servers
-#dictionary /etc/radcli/dictionary
-#default_realm
-#radius_timeout 10
-#radius_retries 3
-#bindaddr *
-#_EOF_
-
 # Enable TUN device
 if [ ! -e /dev/net/tun ]; then
 	mkdir -p /dev/net
@@ -117,6 +102,9 @@ fi
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
+
+# Creatting User
+echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
 
 # OCServ Network Settings
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
@@ -135,7 +123,7 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 # Enable NAT forwarding
 # sysctl -w net.ipv4.ip_forward=1
 # iptables -t nat -A POSTROUTING -j MASQUERADE
-# iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 # 伪装 VPN 子网流量
 iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
 # 创建 V2Ray NAT 表

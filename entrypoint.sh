@@ -66,7 +66,6 @@ if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
   # gen ca keys
   certtool --generate-privkey \
            --outfile ocserv-ca-key.pem
-
   certtool --generate-self-signed \
            --load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
            --template ocserv-ca.tmpl \
@@ -79,7 +78,6 @@ if [ "$OC_GENERATE_KEY" != "false" ] && [ ! -f /etc/ocserv/certs/"${VPN_DOMAIN}"
   # gen server keys
   certtool --generate-privkey \
            --outfile "${VPN_DOMAIN}".self-signed.key
-
   certtool --generate-certificate \
            --load-privkey "${VPN_DOMAIN}".self-signed.key \
            --load-ca-certificate ocserv-ca-cert.pem \
@@ -110,7 +108,6 @@ echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USE
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
 	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
 	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
-
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
 
@@ -123,6 +120,7 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 # Enable NAT forwarding
 # sysctl -w net.ipv4.ip_forward=1
 # iptables -t nat -A POSTROUTING -j MASQUERADE
+# 自动调整 MTU
 iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 # 伪装 VPN 子网流量
 iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE

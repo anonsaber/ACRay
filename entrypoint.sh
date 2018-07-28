@@ -96,6 +96,9 @@ if [ ! -e /dev/net/tun ]; then
 	chmod 600 /dev/net/tun
 fi
 
+# Creat User
+echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
+
 # OCServ Group Settings
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
@@ -105,7 +108,6 @@ fi
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
 	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
 	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
-
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
 

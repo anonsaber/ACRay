@@ -20,7 +20,7 @@ RUN echo "Make some dirs..." \
     && mkdir -p /etc/pre-config \
     && mkdir -p /etc/ocserv/certs \
     && mkdir -p /etc/ocserv/config-per-group
-
+    
 COPY Fully /etc/pre-config/Fully
 COPY Common /etc/pre-config/Common
 COPY Android /etc/pre-config/Android

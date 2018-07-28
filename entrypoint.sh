@@ -65,7 +65,7 @@ if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
   echo "[INFO] generating root CA"
   # gen ca keys
   certtool --generate-privkey \
-           --outfile ocserv-ca-key.pem
+           --outfile ocserv-ca-key.pem           
   certtool --generate-self-signed \
            --load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
            --template ocserv-ca.tmpl \
@@ -101,13 +101,11 @@ fi
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
 
-# Creatting User
-echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
-
 # OCServ Network Settings
 sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
 	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
 	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
+
 changeConfig "tcp-port" "$PORT"
 changeConfig "udp-port" "$PORT"
 
@@ -120,7 +118,7 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 # Enable NAT forwarding
 # sysctl -w net.ipv4.ip_forward=1
 # iptables -t nat -A POSTROUTING -j MASQUERADE
-# 自动调整 MTU
+# 自动适应 MTU
 iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 # 伪装 VPN 子网流量
 iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE

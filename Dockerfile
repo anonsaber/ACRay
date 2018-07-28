@@ -19,13 +19,13 @@ ENV PORT=443 \
 RUN echo "Make some dirs..." \
     && mkdir -p /etc/pre-config \
     && mkdir -p /etc/ocserv/certs \
-    && mkdir -p /etc/ocserv/config-per-group \
-    && mkdir -p /etc/ocserv/config-per-user
+    && mkdir -p /etc/ocserv/config-per-group
 
 COPY Fully /etc/pre-config/Fully
 COPY Common /etc/pre-config/Common
 COPY Android /etc/pre-config/Android
-COPY ocserv.conf /etc/ocserv
+
+COPY ocserv.conf /etc/ocserv/ocserv.conf
 COPY config.json /etc/v2ray/config.json
 
 COPY entrypoint.sh /entrypoint.sh

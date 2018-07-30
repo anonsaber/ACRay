@@ -10,8 +10,9 @@ ENV TZ ${TZ}
 ENV TERM=xterm
 ENV APK_MIRROR="mirrors.aliyun.com" \
     APK_MIRROR_SCHEME="http" \
-    BASED_PKG="bash tzdata gnutls-utils iptables libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
-    BUILD_PKG="wget py-pip linux-headers autoconf g++ gcc make libev-dev curl tar xz nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev automake build-base gettext-dev libsodium-dev libtool mbedtls-dev openssl-dev pcre-dev udns-dev"
+    BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
+    BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
+    BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
 
 # 应用版本
 ENV OC_VERSION=0.12.1 
@@ -29,7 +30,8 @@ RUN set -x \
     && echo -e "\033[33m -> Upgrading System ...\033[0m" \
     && apk upgrade \
     && echo -e "\033[33m -> Installing Base Package ...\033[0m" \
-    && apk add --no-cache ${BASED_PKG} \
+    && apk add --no-cache ${BASED_PKG_1} \
+    && apk add --no-cache ${BASED_PKG_2} \
     && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
     && echo -e "\033[33m -> Done! \033[0m"
 
@@ -46,21 +48,7 @@ RUN set -x \
     && ./configure \
     && make -j"$(nproc)" \
     && make install \
-    && mkdir -p /etc/ocserv 
-
-# 编译安装 Radcli
-# RUN set -x \
-#    && RADCLI_VERSION=`curl "https://api.github.com/repos/radcli/radcli/releases/latest" | sed -n 's/^.*"tag_name": "\(.*\)",$/\1/p'` \
-#    && curl -SL "https://github.com/radcli/radcli/releases/download/$RADCLI_VERSION/radcli-$RADCLI_VERSION.tar.gz" -o radcli.tar.gz \
-#    && mkdir -p /usr/src/radcli \
-#    && tar -xf radcli.tar.gz -C /usr/src/radcli --strip-components=1 \
-#    && rm radcli.tar.gz* \
-#    && cd /usr/src/radcli \
-#    && ./configure --sysconfdir=/etc/ \
-#    && make \
-#    && make install \
-#    && cd / \
-#    && rm -fr /usr/src/radcli
+    && mkdir -p /etc/ocserv
 
 # 安装 V2Ray
 ENV V2RAY_VERSION v3.29 
@@ -82,12 +70,10 @@ RUN mkdir -p \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \
     && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
-    && echo ${TZ} > /etc/timezone \
-    && rm -rf /tmp/v2ray /var/cache/apk/*
+    && echo ${TZ} > /etc/timezone
 
 # 清理系统
-RUN rm -rf /src \
-    && OC_RUN_Deps="$( \
+RUN OC_RUN_Deps="$( \
     scanelf --needed --nobanner /usr/local/sbin/ocserv \
     | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
     | xargs -r apk info --installed \
@@ -95,4 +81,6 @@ RUN rm -rf /src \
     )" \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/v2ray \
+    && rm -rf /src

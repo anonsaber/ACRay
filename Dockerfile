@@ -24,13 +24,14 @@ RUN echo "Make some dirs..." \
 COPY Fully /etc/pre-config/Fully
 COPY Common /etc/pre-config/Common
 COPY Android /etc/pre-config/Android
-
 COPY ocserv.conf /etc/ocserv/ocserv.conf
 COPY config.json /etc/v2ray/config.json
 
 COPY entrypoint.sh /entrypoint.sh
+COPY init.sh /init.sh
 
 RUN chmod a+x /entrypoint.sh
+RUN chmod a+x /init.sh
 
 VOLUME [ "/etc/ocserv/config-per-group" ]
 VOLUME [ "/etc/ocserv/certs" ]

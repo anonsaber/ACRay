@@ -58,10 +58,10 @@ fi
 rm ocserv-ca.tmpl
 rm ocserv-server.tmpl
 
-# Plain Login
-echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"
-
 # OCServ Group Settings
 [ ! -f /etc/ocserv/config-per-group/Fully ] && cp /etc/pre-config/Fully /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Common ] && cp /etc/pre-config/Common /etc/ocserv/config-per-group
 [ ! -f /etc/ocserv/config-per-group/Android ] && cp /etc/pre-config/Android /etc/ocserv/config-per-group
+
+# Plain Login
+echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common" "${VPN_USERNAME}"

@@ -38,6 +38,9 @@ fi
 # Init Ocserv
 /init.sh
 
+# Plain Login
+echo "${VPN_PASSWORD}" | ocpasswd -c /etc/ocserv/ocpasswd -g "Common,Fully,Android" "${VPN_USERNAME}"
+
 # Enable TUN device
 if [ ! -e /dev/net/tun ]; then
 	mkdir -p /dev/net

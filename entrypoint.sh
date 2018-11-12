@@ -60,7 +60,6 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 
 # Enable NAT forwarding
 # sysctl -w net.ipv4.ip_forward=1
-# iptables -t nat -A POSTROUTING -j MASQUERADE
 # 自动适应 MTU
 iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 # 伪装 VPN 子网流量

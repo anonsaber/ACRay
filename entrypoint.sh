@@ -68,14 +68,14 @@ iptables -t nat -A POSTROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -j MASQUERADE
 iptables -t nat -N V2RAY
 iptables -t nat -A PREROUTING -s ${VPN_NETWORK}/${VPN_NETMASK} -p tcp -j V2RAY
 # 不转发内网网段
-iptables -t nat -A V2RAY -d 0.0.0.0/8 -j RETURN
 iptables -t nat -A V2RAY -d 10.0.0.0/8 -j RETURN
+iptables -t nat -A V2RAY -d 172.16.0.0/12 -j RETURN
+iptables -t nat -A V2RAY -d 192.168.0.0/16 -j RETURN
+iptables -t nat -A V2RAY -d 0.0.0.0/8 -j RETURN
 iptables -t nat -A V2RAY -d 127.0.0.0/8 -j RETURN
 iptables -t nat -A V2RAY -d 169.254.0.0/16 -j RETURN
-iptables -t nat -A V2RAY -d 172.16.0.0/12 -j RETURN
 iptables -t nat -A V2RAY -d 192.0.0.0/24 -j RETURN
 iptables -t nat -A V2RAY -d 192.0.2.0/24 -j RETURN
-iptables -t nat -A V2RAY -d 192.168.0.0/16 -j RETURN
 iptables -t nat -A V2RAY -d 198.18.0.0/15 -j RETURN
 iptables -t nat -A V2RAY -d 198.51.100.0/24 -j RETURN
 iptables -t nat -A V2RAY -d 203.0.113.0/24 -j RETURN

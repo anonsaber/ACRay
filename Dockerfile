@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 LABEL MAINTAINER "motofans.club" \
-    ARCHITECTURE "amd64"
+      ARCHITECTURE "amd64"
 
 ARG TZ="Asia/Shanghai"
 
@@ -13,9 +13,6 @@ ENV APK_MIRROR="mirrors.aliyun.com" \
     BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
     BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
     BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
-
-# 应用版本
-ENV OC_VERSION=0.12.1 
 
 # 系统配置 
 RUN set -x \
@@ -34,6 +31,9 @@ RUN set -x \
     && apk add --no-cache ${BASED_PKG_2} \
     && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
     && echo -e "\033[33m -> Done! \033[0m"
+
+# 应用版本
+ENV OC_VERSION=0.12.2
 
 # 编译安装 Ocserv
 RUN set -x \

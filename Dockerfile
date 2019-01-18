@@ -1,9 +1,8 @@
 FROM daocloud.io/subaru/acray:based
 
-LABEL MAINTAINER "motofans.club" \
-    ARCHITECTURE "amd64"
+LABEL MAINTAINER "motofans.club"
 
-ENV PORT=443 \  
+ENV PORT=443 \
     VPN_DOMAIN=motofans.club \
     VPN_IP=a.b.c.d \
     VPN_NETWORK=100.64.1.0 \
@@ -21,9 +20,6 @@ RUN echo "Make some dirs..." \
     && mkdir -p /etc/ocserv/certs \
     && mkdir -p /etc/ocserv/config-per-group
     
-COPY Fully /etc/pre-config/Fully
-COPY Common /etc/pre-config/Common
-COPY Android /etc/pre-config/Android
 COPY ocserv.conf /etc/ocserv/ocserv.conf
 COPY config.json /etc/v2ray/config.json
 
@@ -33,7 +29,6 @@ COPY init.sh /init.sh
 RUN chmod a+x /entrypoint.sh
 RUN chmod a+x /init.sh
 
-VOLUME [ "/etc/ocserv/config-per-group" ]
 VOLUME [ "/etc/ocserv/certs" ]
 
 ENTRYPOINT ["/entrypoint.sh"]

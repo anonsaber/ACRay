@@ -8,7 +8,7 @@
     },
     "inbound": {
         "port": 1080,
-        "protocol": "http",
+        "protocol": "socks",
         "domainOverride": [
             "tls",
             "http"

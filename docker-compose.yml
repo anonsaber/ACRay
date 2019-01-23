@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  acray:
+    image: daocloud.io/subaru/acray
+    container_name: acray
+    hostname: acray
+    restart: always
+    environment:
+      - PORT=999
+      - VPN_DOMAIN=motofans.club
+      - VPN_IP=1.2.3.4
+      - VPN_NETWORK=100.64.1.0
+      - VPN_NETMASK=255.255.255.0
+      - VPN_USERNAME=yourusername
+      - VPN_PASSWORD=yourpassword
+      - V2RAY_SERVER=ray.motofans.club
+      - V2RAY_PORT=10011
+      - V2RAY_ID=a2e57082-6d69-xxxx-xxxx-6a0095bf6f46
+      - V2RAY_ALTERID=64
+      - RADIUS_SERVER=radius.motofans.club
+      - RADIUS_SHAREKEY=yoursharekey
+    networks:
+      acray-net:
+        ipv4_address: 172.31.255.2
+    ports:
+      - "999:999/tcp"
+      - "999:999/udp"
+    cap_add:
+      - NET_ADMIN
+
+networks:
+  acray-net:
+    external: true

@@ -3,12 +3,9 @@ version: '2'
 services:
   acray:
     image: daocloud.io/subaru/acray
-    restart: always
     container_name: acray
     hostname: acray
-    networks:
-      net:
-        ipv4_address: 172.31.1.2
+    restart: always
     environment:
       - PORT=999
       - VPN_DOMAIN=motofans.club
@@ -21,18 +18,17 @@ services:
       - V2RAY_PORT=10011
       - V2RAY_ID=a2e57082-6d69-xxxx-xxxx-6a0095bf6f46
       - V2RAY_ALTERID=64
+      - RADIUS_SERVER=radius.motofans.club
+      - RADIUS_SHAREKEY=yoursharekey
+    networks:
+      acray-net:
+        ipv4_address: 172.31.255.2
     ports:
       - "999:999/tcp"
       - "999:999/udp"
     cap_add:
       - NET_ADMIN
-    restart: always
 
 networks:
-  net:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-      - subnet: 172.31.1.0/24
-        gateway: 172.31.1.1
+  acray-net:
+    external: true

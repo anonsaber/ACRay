@@ -15,10 +15,7 @@ ENV PORT=443 \
     V2RAY_ALTERID=64 \
     OC_GENERATE_KEY=true
 
-RUN echo "Make some dirs..." \
-    && mkdir -p /etc/pre-config \
-    && mkdir -p /etc/ocserv/certs \
-    && mkdir -p /etc/ocserv/config-per-group
+RUN mkdir -p /etc/ocserv/certs
     
 COPY ocserv.conf /etc/ocserv/ocserv.conf
 COPY config.json /etc/v2ray/config.json

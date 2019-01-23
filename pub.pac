@@ -1,4 +1,4 @@
-var proxy = "SOCKS5 118.24.188.231:1080;";
+var proxy = "PROXY 118.24.188.231:1080;";
 
 var domains = {
   "bannedbook.org": 1, 

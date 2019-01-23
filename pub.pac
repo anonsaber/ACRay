@@ -1,5 +1,5 @@
 var IP_ADDRESS = '100.64.2.1:1080';
-var PROXY_TYPE = 'SOCKS';
+var PROXY_TYPE = 'PROXY';
 var PROXY_METHOD = PROXY_TYPE + ' ' + IP_ADDRESS;
 
 var RULES = [

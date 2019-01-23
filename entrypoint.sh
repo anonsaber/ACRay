@@ -63,17 +63,21 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 # Radius Client Config
 cat > /etc/radiusclient/radiusclient.conf <<_EOF_
 nas-identifier acray
-authserver $RADIUS_SERVER
-servers /etc/radcli/servers
-dictionary /etc/radcli/dictionary
+authserver 		$RADIUS_SERVER
+acctserver 		$RADIUS_SERVER
+servers			/etc/radiusclient/servers
+dictionary 		/etc/radiusclient/dictionary
+login_radius    /usr/sbin/login.radius
+seqfile         /var/run/radius.seq
+mapfile         /etc/radiusclient/port-id-map
 default_realm
-radius_timeout 10
-radius_retries 3
-bindaddr *
+radius_timeout	10
+radius_retries	3
+bindaddr		*
 _EOF_
 
 # Radius Share Key
-cat > /etc/radcli/servers << _EOF_
+cat > /etc/radiusclient/servers << _EOF_
 $RADIUS_SERVER		$RADIUS_SHAREKEY
 _EOF_
 

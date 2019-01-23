@@ -62,7 +62,10 @@ sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 
 # Radius Client Config
 cat > /etc/radiusclient/radiusclient.conf <<_EOF_
-nas-identifier acray
+login_tries     4
+login_timeout   60
+nologin 		/etc/nologin
+issue   		/etc/radiusclient/issue
 authserver 		$RADIUS_SERVER
 acctserver 		$RADIUS_SERVER
 servers			/etc/radiusclient/servers

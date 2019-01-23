@@ -13,7 +13,9 @@ ENV PORT=443 \
     V2RAY_PORT=10011 \
     V2RAY_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx \
     V2RAY_ALTERID=64 \
-    OC_GENERATE_KEY=true
+    OC_GENERATE_KEY=true \
+    RADIUS_SERVER=radius.motofans.club \
+    RADIUS_SHAREKEY=yoursharekey
 
 RUN mkdir -p /etc/ocserv/certs
     

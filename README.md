@@ -30,7 +30,7 @@ V2Ray 是一个模块化的代理软件包，它的目标是提供常用的代�
 
 ![ACRay.png](https://emiya-1251100968.cos.ap-chengdu.myqcloud.com/Blog/2017/ACRay.png)
 
-**基于这个方案，我们的浏览器去访问网站时大致是这样一个过程: **
+**基于这个方案，我们的浏览器去访问网站时大致是这样一个过程:**
 
 1. Anyconnect 链接 Ocserv 后 ，Ocserv 推送 Route Table，DNS 以及 PAC 到 Client
 2. Anyconnect 将 Route Table 中的 IP 访问流量截获到 Ocserv，用于访问 Proxy Server 及其他的内部地址
@@ -39,12 +39,12 @@ V2Ray 是一个模块化的代理软件包，它的目标是提供常用的代�
 5. 对于上述访问流程的控制，Route Table 的优先级高于 PAC
 6. Ocserv 推送的 DNS 地址可以是公共 DNS 也可以是私有的
 
-**需要的必要条件: **
+**需要的必要条件:**
 
 * 国内一台公网服务器节点: Ocserv + V2ray-Local
 * 国外一台服务器节点: V2ray-Server
 
-**可选的附加功能: **
+**可选的附加功能:**
 
 * 可以使用 OpenLDAP + Radius Server 作为认证系统
  

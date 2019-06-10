@@ -59,7 +59,52 @@ V2Ray 是一个模块化的代理软件包，它的目标是提供常用的代�
 **docker-compose.yml**
 
 ```yml
+version: '2'
 
+volumes:
+  acray-per-group:
+    external:
+      name: acray-per-group
+  acray-certs:
+    external:
+      name: acray-certs
+
+services:
+  acray:
+    image: daocloud.io/subaru/acray
+    hostname: acray
+    container_name: acray
+    restart: always
+    networks:
+      overlay-net:
+        ipv4_address: 172.31.255.254
+    environment:
+    - PORT=999
+    - VPN_DOMAIN=motofans.club
+    - VPN_IP=123.45.67.89
+    - CLIENT_IP=123.45.67.90
+    - V2RAY_SERVER=ray.motofans.club
+    - V2RAY_PORT=10011
+    - V2RAY_ID=a2e57082-6d69-461e-xxxx-6a0095bf6f46
+    - V2RAY_ALTERID=64
+    - VPN_NETWORK=100.64.2.0
+    - VPN_NETMASK=255.255.255.0
+    - OC_GENERATE_KEY=false
+    - RADIUS_SERVER=radius-server
+    - RADIUS_SHAREKEY=Saber@965mi251
+    - PAC_URL=https://git.motofans.club/xiafan/ACRay/raw/pac/pub.pac
+    ports:
+    - 999:999
+    - 1080:1080
+    volumes:
+    - acray-certs:/etc/ocserv/certs
+    - acray-per-group:/etc/ocserv/config-per-group
+    cap_add:
+    - NET_ADMIN
+
+networks:
+  overlay-net:
+    external: true
 ```
 
 如果想要使用 OpenLDAP + Radius 完成用户的认证，请使用 ldap-rd 分支。

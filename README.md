@@ -28,7 +28,7 @@ Cisco Anyconnect 是思科推出的一款企业级 VPN。其背后的开源技�
 
 V2Ray 是一个模块化的代理软件包，它的目标是提供常用的代理软件模块，简化网络代理软件的开发。
 
-![ACRay.png](https://emiya-1251100968.cos.ap-chengdu.myqcloud.com/Blog/2017/ACRay.png)
+![ACRay.png](https://github.com/XiaFanGit/ACRay/raw/master/ACRay.png)
 
 **基于这个方案，我们的浏览器去访问网站时大致是这样一个过程:**
 

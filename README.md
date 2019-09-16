@@ -13,7 +13,6 @@
 
 ## 参考文献
 
-* [证书生成: http://blog.tremily.us/posts/X.509_certificates](http://blog.tremily.us/posts/X.509_certificates)
 * [分流中转: https://sosonemo.me/strongswan-to-shadowsocks.html](https://sosonemo.me/strongswan-to-shadowsocks.html)
 
 ## 我的设想

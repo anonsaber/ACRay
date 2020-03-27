@@ -31,7 +31,7 @@ ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline
     BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
 
 # 安装 OCserv
-ENV OC_VERSION=0.12.2
+ENV OC_VERSION=1.0.0
 
 RUN set -x \
     && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \

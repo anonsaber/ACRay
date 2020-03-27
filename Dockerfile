@@ -11,7 +11,8 @@ ENV V2RAY_LOG_DIR /var/log/v2ray
 ENV V2RAY_CONFIG_DIR /etc/v2ray/
 ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
 
-RUN mkdir -p \ 
+RUN apk add --no-cache curl \
+    mkdir -p \ 
     ${V2RAY_LOG_DIR} \
     ${V2RAY_CONFIG_DIR} \
     /tmp/v2ray \
@@ -23,7 +24,8 @@ RUN mkdir -p \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geosite.dat /usr/bin \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \
-    && rm -rf /tmp/v2ray
+    && rm -rf /tmp/v2ray \
+    && apk del curl
 
 # 系统环境
 ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \

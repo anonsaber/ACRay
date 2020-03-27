@@ -41,9 +41,8 @@ RUN set -x \
     && echo -e "\033[33m -> Installing V2RAY Client ...\033[0m" \
     && mkdir -p ${V2RAY_LOG_DIR} \
     && mkdir -p ${V2RAY_CONFIG_DIR} \
-    && mkdir -p /tmp/v2ray \
-    && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
-    && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
+    && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
+    && unzip /tmp/v2ray.zip -d /tmp/ \
     && mv /tmp/v2ray /usr/bin \
     && mv /tmp/v2ctl /usr/bin \
     && mv /tmp/geoip.dat /usr/bin \
@@ -58,6 +57,6 @@ RUN set -x \
     )" \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
-    && rm -rf /tmp/v2ray \
+    && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && echo -e "\033[33m -> ALL IS WELL ...\033[0m"

@@ -1,6 +1,4 @@
-FROM daocloud.io/subaru/acray:based
-
-LABEL MAINTAINER "motofans.club"
+FROM ccr.ccs.tencentyun.com/emiya-app/acray:based
 
 ENV PORT=443 \
     VPN_DOMAIN=motofans.club \

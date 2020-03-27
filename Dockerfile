@@ -16,12 +16,6 @@ ENV APK_MIRROR="mirrors.aliyun.com" \
 
 # 系统配置 
 RUN set -x \
-    && echo "This ia a docker image of Ocserv." \
-    && echo "****************************************************************************" \
-    && echo "Start Building the Docker Image, Please Wait ..." \
-    && echo -e "\033[33m -> Modifing APK reposiroties config ...\033[0m" \
-    && sed -i "s/dl-cdn.alpinelinux.org/${APK_MIRROR}/g" /etc/apk/repositories \
-    && sed -i "s/http/${APK_MIRROR_SCHEME}/g" /etc/apk/repositories \
     && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \
     && apk update \
     && echo -e "\033[33m -> Upgrading System ...\033[0m" \
@@ -30,12 +24,12 @@ RUN set -x \
     && apk add --no-cache ${BASED_PKG_1} \
     && apk add --no-cache ${BASED_PKG_2} \
     && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
-    && echo -e "\033[33m -> Done! \033[0m"
+    && echo -e "\033[33m -> Done! \033[0m" \
+    && rm -rf /var/cache/apk/*
 
-# 应用版本
+# 安装 OCserv
 ENV OC_VERSION=0.12.2
 
-# 编译安装 Ocserv
 RUN set -x \
     && mkdir /src \
     && cd /src \

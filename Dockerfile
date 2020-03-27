@@ -49,7 +49,7 @@ RUN set -x \
     && mv /tmp/geosite.dat /usr/bin \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \
-    OC_RUN_Deps="$( \
+    && OC_RUN_Deps="$( \
     scanelf --needed --nobanner /usr/local/sbin/ocserv \
     | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
     | xargs -r apk info --installed \

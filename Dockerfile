@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 
 LABEL MAINTAINER "motofans.club" \
       ARCHITECTURE "amd64"

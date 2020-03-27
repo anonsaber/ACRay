@@ -4,36 +4,16 @@ LABEL MAINTAINER "motofans.club" \
       ARCHITECTURE "amd64"
 
 ENV TERM=xterm
-
-# 安装 V2Ray
-ENV V2RAY_VERSION v4.22.1 
-ENV V2RAY_LOG_DIR /var/log/v2ray
-ENV V2RAY_CONFIG_DIR /etc/v2ray/
-ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
-
-RUN apk add --no-cache curl \
-    mkdir -p \ 
-    ${V2RAY_LOG_DIR} \
-    ${V2RAY_CONFIG_DIR} \
-    /tmp/v2ray \
-    && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
-    && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
-    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ray /usr/bin \
-    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ctl /usr/bin \
-    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geoip.dat /usr/bin \
-    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geosite.dat /usr/bin \
-    && chmod +x /usr/bin/v2ray \
-    && chmod +x /usr/bin/v2ctl \
-    && rm -rf /tmp/v2ray \
-    && apk del curl
-
-# 系统环境
 ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
     BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
     BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
 
-# 安装 OCserv
-ENV OC_VERSION=1.0.0
+# 安装 OCserv 与 V2RAY
+ENV OC_VERSION 1.0.0
+ENV V2RAY_VERSION v4.22.1 
+ENV V2RAY_LOG_DIR /var/log/v2ray
+ENV V2RAY_CONFIG_DIR /etc/v2ray/
+ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
 
 RUN set -x \
     && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \
@@ -58,6 +38,18 @@ RUN set -x \
     && make install \
     && rm -rf /src \
     && mkdir -p /etc/ocserv \
+    && mkdir -p \ 
+    ${V2RAY_LOG_DIR} \
+    ${V2RAY_CONFIG_DIR} \
+    /tmp/v2ray \
+    && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
+    && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ray /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ctl /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geoip.dat /usr/bin \
+    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geosite.dat /usr/bin \
+    && chmod +x /usr/bin/v2ray \
+    && chmod +x /usr/bin/v2ctl \
     OC_RUN_Deps="$( \
     scanelf --needed --nobanner /usr/local/sbin/ocserv \
     | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
@@ -66,4 +58,5 @@ RUN set -x \
     )" \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
+    && rm -rf /tmp/v2ray \
     && rm -rf /var/cache/apk/*

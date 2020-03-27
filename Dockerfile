@@ -3,45 +3,7 @@ FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 LABEL MAINTAINER "motofans.club" \
       ARCHITECTURE "amd64"
 
-ARG TZ="Asia/Shanghai"
-
-# 系统环境
-ENV TZ ${TZ}
 ENV TERM=xterm
-ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
-    BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
-    BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
-
-# 系统配置 
-RUN set -x \
-    && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \
-    && apk update \
-    && echo -e "\033[33m -> Upgrading System ...\033[0m" \
-    && apk upgrade \
-    && echo -e "\033[33m -> Installing Base Package ...\033[0m" \
-    && apk add --no-cache ${BASED_PKG_1} \
-    && apk add --no-cache ${BASED_PKG_2} \
-    && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
-    && echo -e "\033[33m -> Done! \033[0m" \
-    && rm -rf /var/cache/apk/*
-
-# 安装 OCserv
-ENV OC_VERSION=0.12.2
-
-RUN set -x \
-    && mkdir /src \
-    && cd /src \
-    && OC_FILE="ocserv-$OC_VERSION" \
-    && wget ftp://ftp.infradead.org/pub/ocserv/$OC_FILE.tar.xz \
-    && tar xJf $OC_FILE.tar.xz \
-    && rm -rf $OC_FILE.tar.xz \
-    && cd $OC_FILE \
-    && sed -i '/#define DEFAULT_CONFIG_ENTRIES /{s/96/200/}' src/vpn.h \
-    && ./configure \
-    && make -j"$(nproc)" \
-    && make install \
-    && rm -rf /src \
-    && mkdir -p /etc/ocserv
 
 # 安装 V2Ray
 ENV V2RAY_VERSION v4.22.1 
@@ -63,8 +25,38 @@ RUN mkdir -p \
     && chmod +x /usr/bin/v2ctl \
     && rm -rf /tmp/v2ray
 
-# 清理系统
-RUN OC_RUN_Deps="$( \
+# 系统环境
+ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
+    BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
+    BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
+
+# 安装 OCserv
+ENV OC_VERSION=0.12.2
+
+RUN set -x \
+    && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \
+    && apk update \
+    && echo -e "\033[33m -> Upgrading System ...\033[0m" \
+    && apk upgrade \
+    && echo -e "\033[33m -> Installing Base Package ...\033[0m" \
+    && apk add --no-cache ${BASED_PKG_1} \
+    && apk add --no-cache ${BASED_PKG_2} \
+    && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
+    && echo -e "\033[33m -> Done! \033[0m" \
+    && mkdir /src \
+    && cd /src \
+    && OC_FILE="ocserv-$OC_VERSION" \
+    && wget ftp://ftp.infradead.org/pub/ocserv/$OC_FILE.tar.xz \
+    && tar xJf $OC_FILE.tar.xz \
+    && rm -rf $OC_FILE.tar.xz \
+    && cd $OC_FILE \
+    && sed -i '/#define DEFAULT_CONFIG_ENTRIES /{s/96/200/}' src/vpn.h \
+    && ./configure \
+    && make -j"$(nproc)" \
+    && make install \
+    && rm -rf /src \
+    && mkdir -p /etc/ocserv \
+    OC_RUN_Deps="$( \
     scanelf --needed --nobanner /usr/local/sbin/ocserv \
     | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
     | xargs -r apk info --installed \

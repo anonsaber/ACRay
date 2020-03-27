@@ -48,6 +48,7 @@ RUN set -x \
     && ./configure \
     && make -j"$(nproc)" \
     && make install \
+    && rm -rf /src \
     && mkdir -p /etc/ocserv
 
 # 安装 V2Ray
@@ -66,9 +67,9 @@ RUN mkdir -p \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/v2ctl /usr/bin \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geoip.dat /usr/bin \
     && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/geosite.dat /usr/bin \
-    && mv /tmp/v2ray/v2ray-${V2RAY_VERSION}-linux-64/vpoint_vmess_freedom.json /etc/v2ray/config.json \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \
+    && rm -rf /tmp/v2ray \
     && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo ${TZ} > /etc/timezone
 
@@ -81,6 +82,4 @@ RUN OC_RUN_Deps="$( \
     )" \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
-    && rm -rf /var/cache/apk/* \
-    && rm -rf /tmp/v2ray \
-    && rm -rf /src
+    && rm -rf /var/cache/apk/*

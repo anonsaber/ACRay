@@ -24,7 +24,7 @@ RUN set -x \
     && apk add --no-cache ${BASED_PKG_1} \
     && apk add --no-cache ${BASED_PKG_2} \
     && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
-    && echo -e "\033[33m -> Done! \033[0m" \
+    && echo -e "\033[33m -> Installing Ocserv ...\033[0m" \
     && mkdir /src \
     && cd /src \
     && OC_FILE="ocserv-$OC_VERSION" \
@@ -38,6 +38,7 @@ RUN set -x \
     && make install \
     && rm -rf /src \
     && mkdir -p /etc/ocserv \
+    && echo -e "\033[33m -> Installing V2RAY Client ...\033[0m" \
     && mkdir -p \ 
     ${V2RAY_LOG_DIR} \
     ${V2RAY_CONFIG_DIR} \
@@ -59,4 +60,5 @@ RUN set -x \
     && apk del .build-deps \
     && apk add --virtual .oc-run-deps $OC_RUN_Deps \
     && rm -rf /tmp/v2ray \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* \
+    && echo -e "\033[33m -> ALL IS WELL ...\033[0m" \

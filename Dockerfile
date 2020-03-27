@@ -44,10 +44,10 @@ RUN set -x \
     && mkdir -p /tmp/v2ray \
     && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray/v2ray.zip ${V2RAY_DOWNLOAD_URL} \
     && unzip /tmp/v2ray/v2ray.zip -d /tmp/v2ray/ \
-    && mv /tmp/v2ray/v2ray /usr/bin \
-    && mv /tmp/v2ray/v2ctl /usr/bin \
-    && mv /tmp/v2ray/geoip.dat /usr/bin \
-    && mv /tmp/v2ray/geosite.dat /usr/bin \
+    && mv /tmp/v2ray /usr/bin \
+    && mv /tmp/v2ctl /usr/bin \
+    && mv /tmp/geoip.dat /usr/bin \
+    && mv /tmp/geosite.dat /usr/bin \
     && chmod +x /usr/bin/v2ray \
     && chmod +x /usr/bin/v2ctl \
     OC_RUN_Deps="$( \

@@ -2,7 +2,7 @@ version: '2'
 
 services:
   acray:
-    image: daocloud.io/subaru/acray
+    image: ccr.ccs.tencentyun.com/emiya-app/acray:stable
     container_name: acray
     hostname: acray
     restart: always

@@ -28,7 +28,7 @@ RUN echo -e "\033[33m -> Installing Based Package ...\033[0m" \
     && make -j"$(nproc)" \
     && make install \
     && rm -rf /src \
-    && mkdir -p /etc/ocserv \
+    && mkdir -p /etc/ocserv/certs \
     && echo -e "\033[33m -> Installing V2Ray Client ...\033[0m" \
     && mkdir -p ${V2RAY_LOG_DIR} \
     && mkdir -p ${V2RAY_CONFIG_DIR} \

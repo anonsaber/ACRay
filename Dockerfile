@@ -1,9 +1,5 @@
 FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 
-LABEL MAINTAINER "motofans.club" \
-      ARCHITECTURE "amd64"
-
-ENV TERM=xterm
 ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline gpgme ca-certificates libcrypto1.0 libev libsodium mbedtls pcre udns" \
     BASED_PKG_2="gettext-dev libsodium-dev mbedtls-dev openssl-dev pcre-dev udns-dev nettle-dev gnutls-dev protobuf-c-dev talloc-dev linux-pam-dev readline-dev http-parser-dev lz4-dev geoip-dev libseccomp-dev libnl3-dev krb5-dev freeradius-client-dev" \
     BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
@@ -15,12 +11,7 @@ ENV V2RAY_LOG_DIR /var/log/v2ray
 ENV V2RAY_CONFIG_DIR /etc/v2ray/
 ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
 
-RUN set -x \
-    && echo -e "\033[33m -> Updating APK repositories ...\033[0m" \
-    && apk update \
-    && echo -e "\033[33m -> Upgrading System ...\033[0m" \
-    && apk upgrade \
-    && echo -e "\033[33m -> Installing Base Package ...\033[0m" \
+RUN echo -e "\033[33m -> Installing Based Package ...\033[0m" \
     && apk add --no-cache ${BASED_PKG_1} \
     && apk add --no-cache ${BASED_PKG_2} \
     && apk add --no-cache --virtual .build-deps ${BUILD_PKG} \
@@ -38,7 +29,7 @@ RUN set -x \
     && make install \
     && rm -rf /src \
     && mkdir -p /etc/ocserv \
-    && echo -e "\033[33m -> Installing V2RAY Client ...\033[0m" \
+    && echo -e "\033[33m -> Installing V2Ray Client ...\033[0m" \
     && mkdir -p ${V2RAY_LOG_DIR} \
     && mkdir -p ${V2RAY_CONFIG_DIR} \
     && curl -L -H "Cache-Control: no-cache" -o /tmp/v2ray.zip ${V2RAY_DOWNLOAD_URL} \

@@ -11,7 +11,7 @@
 
 那么有没有在企业环境下比较完美的办法？
 
-## 参考文献
+## 一种方案
 
 * [分流中转: https://sosonemo.me/strongswan-to-shadowsocks.html](https://sosonemo.me/strongswan-to-shadowsocks.html)
 
@@ -21,7 +21,7 @@
 
 ### Ocserv
 
-Cisco Anyconnect 是思科推出的一款企业级 VPN。其背后的开源技术是[OpenConnect](http://en.wikipedia.org/wiki/OpenConnect)。简单来说就是平时使用 UDP 的[DTLS](http://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security)协议进行加密，掉线时自动使用 TCP 的 TLS 协议进行备份恢复，因此相对其它 VPN 比较稳定；而且广泛被大企业采用，不容易被误杀；加之比较小众，架设起来不太容易，也吸引不了很多的火力。
+Cisco Anyconnect 是思科推出的一款企业级 VPN。其背后的开源技术是[OpenConnect](http://en.wikipedia.org/wiki/OpenConnect)。
 
 ### V2Ray
 

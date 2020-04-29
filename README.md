@@ -11,13 +11,15 @@
 
 那么有没有在企业环境下比较完美的办法？
 
-## 一种方案
+## 现成的方案
 
 * [分流中转: https://sosonemo.me/strongswan-to-shadowsocks.html](https://sosonemo.me/strongswan-to-shadowsocks.html)
 
+这种方案是将所有流量统一路由到一台国内的服务器，然后使用 iptables 在服务端完成分流。好处是逻辑相对简单，无视域名，不需要维护 Pac 列表。最大问题是所有流量都要经过国内服务器（包括国内站点），造成国内节点流量的浪费。
+
 ## 我的设想
 
-**使用 Ocserv + V2Ray-Local 实现智能分流**
+**使用 Ocserv + Pac + V2Ray-Local 实现智能分流**
 
 ### Ocserv
 

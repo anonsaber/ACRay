@@ -42,10 +42,6 @@ V2Ray 是一个模块化的代理软件包，它的目标是提供常用的代�
 
 * 国内一台公网服务器节点: Ocserv + V2ray-Local
 * 国外一台服务器节点: V2ray-Server
-
-**需要自行准备的:**
-
-* OpenLDAP + Radius Server 用作认证系统
  
 ## 部署 ACRay
 
@@ -74,9 +70,6 @@ services:
     hostname: acray
     container_name: acray
     restart: always
-    networks:
-      overlay-net:
-        ipv4_address: 172.31.255.254
     environment:
     - PORT=999
     - VPN_DOMAIN=motofans.club
@@ -100,8 +93,4 @@ services:
     - acray-per-group:/etc/ocserv/config-per-group
     cap_add:
     - NET_ADMIN
-
-networks:
-  overlay-net:
-    external: true
 ```

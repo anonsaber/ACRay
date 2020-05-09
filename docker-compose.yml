@@ -1,34 +1,40 @@
 version: '2'
 
+volumes:
+  acray-per-group:
+    external:
+      name: acray-per-group
+  acray-certs:
+    external:
+      name: acray-certs
+
 services:
   acray:
-    image: daocloud.io/subaru/acray
-    container_name: acray
+    image: acray:test
     hostname: acray
+    container_name: acray
     restart: always
     environment:
-      - PORT=999
-      - VPN_DOMAIN=motofans.club
-      - VPN_IP=1.2.3.4
-      - VPN_NETWORK=100.64.1.0
-      - VPN_NETMASK=255.255.255.0
-      - VPN_USERNAME=yourusername
-      - VPN_PASSWORD=yourpassword
-      - V2RAY_SERVER=ray.motofans.club
-      - V2RAY_PORT=10011
-      - V2RAY_ID=a2e57082-6d69-xxxx-xxxx-6a0095bf6f46
-      - V2RAY_ALTERID=64
-      - RADIUS_SERVER=radius.motofans.club
-      - RADIUS_SHAREKEY=yoursharekey
-    networks:
-      acray-net:
-        ipv4_address: 172.31.255.2
+    - PORT=999
+    - VPN_DOMAIN=motofans.club
+    - VPN_IP=123.45.67.89
+    - VPN_NETWORK=100.64.2.0
+    - VPN_NETMASK=255.255.255.0
+    - CLIENT_IP=123.45.67.89
+    - V2RAY_SERVER=v.motofans.club
+    - V2RAY_PORT=10011
+    - V2RAY_ID=a2e570xx-6dxx-4xxe-aexx-6a0xx5bxxf46
+    - V2RAY_ALTERID=32
+    - V2RAY_PATH=v2ray
+    - OC_GENERATE_KEY=false
+    - RADIUS_SERVER=10.214.62.242
+    - RADIUS_SHAREKEY=emiya123
+    - PAC_URL=https://xxx.xxx.com/PAC/pub-socks5.pac
     ports:
-      - "999:999/tcp"
-      - "999:999/udp"
+    - 999:999
+    - 1080:1080
+    volumes:
+    - acray-certs:/etc/ocserv/certs
+    - acray-per-group:/etc/ocserv/config-per-group
     cap_add:
-      - NET_ADMIN
-
-networks:
-  acray-net:
-    external: true
+    - NET_ADMIN

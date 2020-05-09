@@ -28,30 +28,30 @@ _EOF_
 
 # Generate CA
 if [ ! -f /etc/ocserv/certs/ocserv-ca-key.pem ]; then
-	echo "[INFO] generating root CA"
-	# gen ca keys
-	certtool --generate-privkey \
-		--outfile ocserv-ca-key.pem
+        echo "[INFO] generating root CA"
+        # gen ca keys
+        certtool --generate-privkey \
+                --outfile ocserv-ca-key.pem
 
-	certtool --generate-self-signed \
-		--load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
-		--template ocserv-ca.tmpl \
-		--outfile ocserv-ca-cert.pem
+        certtool --generate-self-signed \
+                --load-privkey /etc/ocserv/certs/ocserv-ca-key.pem \
+                --template ocserv-ca.tmpl \
+                --outfile ocserv-ca-cert.pem
 fi
 
 # Generate Server Certs
 if [ "$OC_GENERATE_KEY" != "false" ] && [ ! -f /etc/ocserv/certs/"${VPN_DOMAIN}".self-signed.crt ]; then
-	echo "[INFO] generating server certs"
-	# gen server keys
-	certtool --generate-privkey \
-		--outfile "${VPN_DOMAIN}".self-signed.key
+        echo "[INFO] generating server certs"
+        # gen server keys
+        certtool --generate-privkey \
+                --outfile "${VPN_DOMAIN}".self-signed.key
 
-	certtool --generate-certificate \
-		--load-privkey "${VPN_DOMAIN}".self-signed.key \
-		--load-ca-certificate ocserv-ca-cert.pem \
-		--load-ca-privkey ocserv-ca-key.pem \
-		--template ocserv-server.tmpl \
-		--outfile "${VPN_DOMAIN}".self-signed.crt
+        certtool --generate-certificate \
+                --load-privkey "${VPN_DOMAIN}".self-signed.key \
+                --load-ca-certificate ocserv-ca-cert.pem \
+                --load-ca-privkey ocserv-ca-key.pem \
+                --template ocserv-server.tmpl \
+                --outfile "${VPN_DOMAIN}".self-signed.crt
 fi
 
 # Remove Tmpl Files

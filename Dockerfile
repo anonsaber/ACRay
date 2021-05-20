@@ -1,4 +1,4 @@
-FROM daocloud.io/subaru/acray:based
+FROM ccr.ccs.tencentyun.com/emiya-app/acray:based
     
 COPY ocserv.conf /etc/ocserv/ocserv.conf
 COPY config.json /etc/v2ray/config.json

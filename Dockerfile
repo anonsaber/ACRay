@@ -5,7 +5,7 @@ ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline
     BUILD_PKG="wget curl libev-dev py-pip linux-headers autoconf g++ gcc make tar xz automake build-base"
 
 # 安装 OCserv 与 V2RAY
-ENV OC_VERSION 1.0.0
+ENV OC_VERSION 1.1.2
 ENV V2RAY_VERSION v4.22.1 
 ENV V2RAY_LOG_DIR /var/log/v2ray
 ENV V2RAY_CONFIG_DIR /etc/v2ray/

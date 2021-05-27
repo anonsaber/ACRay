@@ -6,7 +6,7 @@ ENV BASED_PKG_1="bash tzdata gnutls-utils iptables libtool libnl3 geoip readline
 
 # 安装 OCserv 与 V2RAY
 ENV OC_VERSION 1.1.2
-ENV V2RAY_VERSION v4.22.1 
+ENV V2RAY_VERSION v4.23.3 
 ENV V2RAY_LOG_DIR /var/log/v2ray
 ENV V2RAY_CONFIG_DIR /etc/v2ray/
 ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip

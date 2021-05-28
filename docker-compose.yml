@@ -20,7 +20,6 @@ services:
     - VPN_IP=123.45.67.89
     - VPN_NETWORK=100.64.2.0
     - VPN_NETMASK=255.255.255.0
-    - CLIENT_IP=123.45.67.89
     - V2RAY_SERVER=v.motofans.club
     - V2RAY_PORT=10011
     - V2RAY_ID=a2e570xx-6dxx-4xxe-aexx-6a0xx5bxxf46

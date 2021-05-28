@@ -45,7 +45,6 @@ sed -i "s/10011/${V2RAY_PORT}/g" /etc/v2ray/config.json
 sed -i "s/64/${V2RAY_ALTERID}/g" /etc/v2ray/config.json
 sed -i "s/v2ray/${V2RAY_PATH}/g" /etc/v2ray/config.json
 sed -i "s/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/${V2RAY_ID}/g" /etc/v2ray/config.json
-sed -i "s/w.x.y.z/${CLIENT_IP}/g" /etc/v2ray/config.json
 
 # Radius Client Config
 cat > /etc/radiusclient/radiusclient.conf <<_EOF_

@@ -1,99 +1,105 @@
 {
-    "log": {
-        "error": "",
-        "loglevel": "info",
-        "access": ""
-    },
-    "inbounds": [
-        {
-            "sniffing": {
-                "enabled": true,
-                "destOverride": [
-                    "tls",
-                    "http"
-                ]
-            },
-            "protocol": "socks",
-            "settings": {
-                "udp": false,
-                "auth": "noauth"
-            },
-            "port": "1080"
+  "log": {
+    "access": "/tmp/v2-access.log",
+    "error": "/tmp/v2-error.log",
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "listen": "0.0.0.0",
+      "port": "1080",
+      "protocol": "socks",
+      "settings": {
+        "udp": false,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "tls",
+          "http"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "mux": {
+        "enabled": false,
+        "concurrency": 8
+      },
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "d.c.b.a",
+            "users": [
+              {
+                "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                "alterId": 64,
+                "security": "none"
+              }
+            ],
+            "port": 10011
+          }
+        ]
+      },
+      "streamSettings": {
+        "httpSettings": {
+          "path": "/v2ray"
+        },
+        "network": "h2",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": true,
+          "serverName": "d.c.b.a"
         }
-    ],
-    "outbounds": [
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {
+        "domainStrategy": "UseIP",
+        "redirect": "",
+        "userLevel": 0
+      }
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "none"
+        }
+      }
+    }
+  ],
+  "dns": {},
+  "routing": {
+    "settings": {
+      "domainStrategy": "IPOnDemand",
+      "rules": [
         {
-            "mux": {
-                "enabled": true,
-                "concurrency": 8
-            },
-            "protocol": "vmess",
-            "streamSettings": {
-                "wsSettings": {
-                    "path": "/v2ray",
-                    "headers": {
-                        "host": ""
-                    }
-                },
-                "tlsSettings": {
-                    "serverName": "ray.motofans.club",
-                    "allowInsecure": false
-                },
-                "security": "tls",
-                "network": "ws"
-            },
-            "tag": "proxy",
-            "settings": {
-                "vnext": [
-                    {
-                        "address": "d.c.b.a",
-                        "users": [
-                            {
-                                "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-                                "alterId": 64,
-                                "level": 1,
-                                "security": "auto"
-                            }
-                        ],
-                        "port": 10011
-                    }
-                ]
-            }
+          "type": "field",
+          "outboundTag": "direct",
+          "domain": [
+            "localhost",
+            "geosite:cn"
+          ]
         },
         {
-            "tag": "direct",
-            "protocol": "freedom",
-            "settings": null
-        },
-        {
-            "tag": "block",
-            "protocol": "blackhole",
-            "settings": null
+          "type": "field",
+          "ip": [
+            "geoip:private",
+            "geoip:cn"
+          ],
+          "outboundTag": "direct"
         }
-    ],
-    "dns": {
-        "servers": [
-            "119.29.29.29"
-        ],
-        "clientIp": "w.x.y.z"
-    },
-    "routing": {
-        "settings": {
-            "domainStrategy": "AsIs",
-            "rules": [
-                {
-                    "outboundTag": "direct",
-                    "type": "field",
-                    "ip": [
-                        "geoip:private",
-                        "geoip:cn"
-                    ],
-                    "domain": [
-                        "geosite:cn"
-                    ]
-                }
-            ]
-        }
-    },
-    "transport": {}
+      ]
+    }
+  },
+  "transport": {}
 }

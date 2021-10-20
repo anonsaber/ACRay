@@ -2,7 +2,7 @@
 
 Docs: https://acray.motofans.club
 
-Support Device: IOS/Linux/Windows/MacOS/BlackBerry/ChromeOS
+**Support Device**: IOS/Linux/Windows/MacOS/BlackBerry/ChromeOS
 
 **Don't Support Android Mobile**
 

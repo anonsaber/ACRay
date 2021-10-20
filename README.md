@@ -1,6 +1,7 @@
 # ACRay
 
 Docs: https://acray.motofans.club
+Support Devices: https://www.cisco.com/c/en/us/td/docs/security/vpn_client/anyconnect/anyconnect40/feature/guide/AnyConnect_Mobile_Platforms_and_Features_Guide.html
 
 ![ACRay.png](https://github.com/XiaFanGit/ACRay/raw/master/ACRay.png)
 
